@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 @ensure_annotations
-def read_yaml(path_to_yaml: Path) -> configBox:
+def read_yaml(path_to_yaml: Path) -> ConfigBox:
     """reads yaml file and returns
     Args:
         path_to_yaml (str): path like input
@@ -41,8 +41,23 @@ def create_directories(path_to_directories:list,verbose=True):
         ignore_log(bool,optional): ignore if multiple dirs is to be created
 """
 
-for path in path_to_directories:
-    os.makedirs(path,exist_ok=True)
-    if verbose:
-        logger.info(f"directory created at: {path}")
+    for path in path_to_directories:
+        os.makedirs(path,exist_ok=True)
+        if verbose:
+            logger.info(f"directory created at: {path}")
 
+
+
+@ensure_annotations
+def get_size(path:  Path) -> str:
+    """get size in KB
+    
+    Args:
+        path(Path): Path of the file
+        
+    Returns:
+        str: Size in KB
+        """
+    
+    size_in_kb = round(os.path.getsize(path)/1024)
+    return f"~ {size_in_kb} KB"
