@@ -7,7 +7,7 @@ from textsummarizer.entity import DataTransformationConfig
 class DataTransformation:
     def __init__(self,config: DataTransformationConfig):
         self.config = config
-        self.tokenizer = AutoTokenizer.from_pretrained_config(config.tokenizer_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_name)
 
 
     def convert_examples_to_features(self, example_batch):

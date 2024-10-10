@@ -7,6 +7,6 @@ class DataTransformationTrainingPipeline:
         pass
     def main(self):
         config = configurationManager()
-        data_validation_config = config.get_data_validation_config()
-        data_validation = DataTransformation(config=data_validation_config)
-        data_validation.validate_all_files_exist()
+        data_transformation_config = config.get_data_transformation_config()
+        data_transformation_config = DataTransformation(config=data_transformation_config)
+        data_transformation_config.convert()

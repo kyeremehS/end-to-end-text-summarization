@@ -8,5 +8,5 @@ class DataValidationTrainingPipeline:
     def main(self):
         config = configurationManager()
         data_validation_config = config.get_data_validation_config()
-        data_validation = DataValidation(config=data_validation_config)
-        data_validation.validate_all_files_exist()
+        data_validation_config = DataValidation(config=data_validation_config)
+        data_validation_config.validate_all_files_exist()
