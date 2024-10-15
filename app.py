@@ -1,36 +1,32 @@
-import streamlit as st
+from fastapi import FastAPI
+import uvicorn
 import os
+from fastapi.responses import RedirectResponse, Response
 from textsummarizer.pipeline.prediction import PredictionPipeline
 
-# Title and Introduction
-st.title("Text Summarization App")
-st.write("This app performs text summarization using a pre-trained model.")
 
-# Add an input text box for prediction
-text = st.text_area("Enter Text for Summarization", "What is Text Summarization?")
+app = FastAPI()
 
-# Training section
-if st.button("Train Model"):
-    st.write("Training started...")
+@app.get("/", tags=["authentication"])
+async def index():
+    return RedirectResponse(url="/docs")
+
+@app.get("/train")
+async def training():
     try:
-        # Simulate the training process
         os.system("python main.py")
-        st.success("Training successful!")
+        return Response("Training successful !!" )
     except Exception as e:
-        st.error(f"Error occurred during training: {e}")
+        return Response(f"Error occurred! {e}")
+    
+@app.post("/predict")
+async def predict_route(text: str):
+    try:
+        obj = PredictionPipeline()
+        result = obj.predict(text)
+        return {"summary": result}
+    except Exception as e:
+        raise e
 
-# Prediction section
-if st.button("Summarize Text"):
-    if text:
-        st.write("Summarizing the text...")
-        try:
-            # Prediction pipeline instance
-            obj = PredictionPipeline()
-            summarized_text = obj.predict(text)
-            st.write("Summarized Text:")
-            st.success(summarized_text)
-        except Exception as e:
-            st.error(f"Error occurred during summarization: {e}")
-    else:
-        st.warning("Please enter some text for summarization.")
-
+if __name__ == '__main__':
+    uvicorn.run(app, host="0.0.0.0", port=8000)
