@@ -9,4 +9,4 @@ class ModelTrainingPipeline:
         config = configurationManager()
         model_trainer_config = config.get_model_trainer_config()
         model_trainer_config = ModelTrainer(config=model_trainer_config)
-        model_trainer_config.convert()
+        model_trainer_config.train()
