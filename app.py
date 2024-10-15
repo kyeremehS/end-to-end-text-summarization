@@ -1,39 +1,36 @@
 import streamlit as st
-from transformers import PegasusTokenizer, PegasusForConditionalGeneration
+import os
+from textsummarizer.pipeline.prediction import PredictionPipeline
 
-# Load model and tokenizer
-@st.cache_resource
-def load_model():
-    tokenizer = PegasusTokenizer.from_pretrained('google/pegasus-cnn_dailymail')
-    model = PegasusForConditionalGeneration.from_pretrained('google/pegasus-cnn_dailymail')
-    return tokenizer, model
+# Title and Introduction
+st.title("Text Summarization App")
+st.write("This app performs text summarization using a pre-trained model.")
 
-tokenizer, model = load_model()
+# Add an input text box for prediction
+text = st.text_area("Enter Text for Summarization", "What is Text Summarization?")
 
-# Summarization function
-def summarize_text(text):
-    tokens = tokenizer(text, truncation=True, padding="longest", return_tensors="pt")
-    summary_ids = model.generate(tokens['input_ids'], max_length=150, num_beams=4, length_penalty=2.0, early_stopping=True)
-    summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
-    return summary
+# Training section
+if st.button("Train Model"):
+    st.write("Training started...")
+    try:
+        # Simulate the training process
+        os.system("python main.py")
+        st.success("Training successful!")
+    except Exception as e:
+        st.error(f"Error occurred during training: {e}")
 
-# Streamlit app
-def main():
-    st.title("Text Summarization App")
-    st.write("This app summarizes text using Pegasus transformer model.")
-    
-    # Input text area
-    input_text = st.text_area("Enter the text you want to summarize", height=200)
+# Prediction section
+if st.button("Summarize Text"):
+    if text:
+        st.write("Summarizing the text...")
+        try:
+            # Prediction pipeline instance
+            obj = PredictionPipeline()
+            summarized_text = obj.predict(text)
+            st.write("Summarized Text:")
+            st.success(summarized_text)
+        except Exception as e:
+            st.error(f"Error occurred during summarization: {e}")
+    else:
+        st.warning("Please enter some text for summarization.")
 
-    # Summarize button
-    if st.button("Summarize"):
-        if input_text:
-            with st.spinner("Summarizing..."):
-                summary = summarize_text(input_text)
-                st.subheader("Summary")
-                st.write(summary)
-        else:
-            st.error("Please enter some text to summarize.")
-
-if __name__ == "__main__":
-    main()
