@@ -3,10 +3,10 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class DataIngestionConfig:
-    root_dir : Path
-    source_URL : str
-    local_data_file : Path
-    unzip_dir : Path
+    root_dir: Path
+    source_URL: str
+    local_data_file: Path
+    unzip_dir: Path
 
 @dataclass(frozen=True)
 class DataValidationConfig:
@@ -14,13 +14,11 @@ class DataValidationConfig:
     STATUS_FILE: str
     ALL_REQUIRED_FILES: list
 
-
 @dataclass(frozen=True)
 class DataTransformationConfig:
     root_dir: Path
     data_path: Path
-    tokenizer_name : Path
-
+    tokenizer_name: Path
 
 @dataclass(frozen=True)
 class ModelTrainerConfig:
@@ -37,10 +35,9 @@ class ModelTrainerConfig:
     save_steps: int
     gradient_accumulation_steps: int
 
-
 @dataclass(frozen=True)
 class ModelEvaluationConfig:
     root_dir: Path
     data_path: Path
-    tokenizer_path : Path
-    metric_file_path: Path
+    tokenizer_path: Path
+    metric_file_path: Path  # Updated to metric_file_path

@@ -91,7 +91,7 @@ class configurationManager:
             root_dir = config.root_dir,
             data_path = config.data_path,
             tokenizer_path = config.tokenizer_path,
-            metric_file_name = config.metric_file_name
+            metric_file_path = config.metric_file_path
             )
             
         return model_evaluation_config

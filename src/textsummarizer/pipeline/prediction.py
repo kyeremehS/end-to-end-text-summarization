@@ -4,7 +4,8 @@ from transformers import pipeline
 
 class PredictionPipeline:
     def __init__(self):
-        self.config = configurationManager.get_model_evaluation_config()
+        config_manager = configurationManager()
+        self.config = config_manager.get_model_evaluation_config()
 
     def predict(self,text):
         tokenizer =  AutoTokenizer.from_pretrained(self.config.tokenizer_path)
@@ -15,7 +16,7 @@ class PredictionPipeline:
         print("Dialogue:")
         print(text)
 
-        output = pipe(text, **gen_kwargs)[0]["summaty_text"]
+        output = pipe(text, **gen_kwargs)[0]["summary_text"]
         print("\nModel Summary:")
         print(output)
 
